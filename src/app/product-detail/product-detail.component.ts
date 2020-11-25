@@ -21,7 +21,7 @@ export class ProductDetailComponent implements OnInit {
 
   getProduct(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.product = PRODUCTS[id];
+    this.product = PRODUCTS.find(product => product.id === id);
   }
 
 }
