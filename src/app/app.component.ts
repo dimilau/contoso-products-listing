@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PRODUCTS } from './mock-products';
+
 
 @Component({
   selector: 'app-root',
@@ -8,5 +8,4 @@ import { PRODUCTS } from './mock-products';
 })
 export class AppComponent {
   title = 'contoso-online-store-two';
-  products = PRODUCTS;
 }
