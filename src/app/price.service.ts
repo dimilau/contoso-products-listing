@@ -53,7 +53,7 @@ export class PriceService {
         'default': '20% Discount'
       },
       'platinum': {
-        'kon4': 'Discount: Order 3 or more, get 2888.99/unit',
+        'kon4': 'Discount: Order 5 or more, get 2888.99/unit',
         'iro8': 'Discount: 3000/unit',
         'iro17': '5 for 4 deal',
         'default': '15% Discount'
