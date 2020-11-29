@@ -29,35 +29,35 @@ export class CartService {
     let userType = this.userService.user.type;
     let rules = this.priceService.rules[userType];
     let discountTypes = this.priceService.discountTypes[userType];
-
+    
     let cart= JSON.parse(localStorage.getItem('cart')||'[]');
+
     let cartLineItems: ICartLineItem[] = cart.map(function(cartLineItem: ICartLineItem){
       let productDetail = PRODUCTS.find(product => product.id === cartLineItem.id);
-      let selectedRule = rules[productDetail.sku] ? rules[productDetail.sku] : rules['default'];
-      let discountType = discountTypes[productDetail.sku] ? discountTypes[productDetail.sku] : discountTypes['default'];
-      let subTotal = selectedRule(cartLineItem.quantity, productDetail.price);
+
+      let subTotal = (rules[productDetail.sku] ? 
+        rules[productDetail.sku] : 
+        rules['default'])(cartLineItem.quantity, productDetail.price);
+
+      let discountType = discountTypes[productDetail.sku] ? 
+        discountTypes[productDetail.sku] :
+        discountTypes['default'];
+
       return {...cartLineItem, ...productDetail, subTotal, discountType};
     });
     return cartLineItems;
   }
 
   get cartCount() {
-    let cart= JSON.parse(localStorage.getItem('cart')||'[]');
-    return cart.reduce(function(acc, cartLineItem){
+    return JSON.parse(localStorage.getItem('cart')||'[]').reduce(function(acc, cartLineItem){
       return acc + cartLineItem.quantity;
     },0);
   }
 
   get sum() {
-    let userType = this.userService.user.type;
-    let rules = this.priceService.rules[userType];
-
-    let sum = this.cart.reduce(function (total, cartLineItem) {
-      let selectedRule = rules[cartLineItem.sku] ? rules[cartLineItem.sku] : rules['default'];
-      let sumItem = selectedRule(cartLineItem.quantity, cartLineItem.price);
-      return total + Math.round(sumItem * 100) / 100;
-    }.bind(this), 0);
-    return sum;
+    return this.cart.reduce(function (total, cartLineItem) {
+      return total + cartLineItem.subTotal;
+    }, 0);
   }
 }
 

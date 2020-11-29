@@ -1,7 +1,18 @@
 .shopping-cart-table {
     border-collapse: collapse;
 }
-
+.shopping-cart-table th {
+    background: #dfe6e9;
+}
 .shopping-cart-table td {
     border: 1px solid #dfe6e9;
+}
+
+.discount-type {
+    color: white;
+    background: #fdcb6e;
+    padding: 0.1em 0.5em;
+    font-size: 8pt;
+    font-weight: bold;
+    border-radius: 0.5em;
 }

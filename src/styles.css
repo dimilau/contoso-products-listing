@@ -3,6 +3,12 @@
 @font-face {
     font-family: 'Open Sans';
     src: url('assets/OpenSans-Regular.ttf');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Open Sans';
+    src: url('assets/OpenSans-Bold.ttf');
+    font-weight: bold;
 }
 
 body {
