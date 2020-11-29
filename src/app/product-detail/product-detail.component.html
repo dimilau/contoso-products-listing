@@ -1,10 +1,24 @@
+<!-- Duplicated code. Need to refactor this to a common layout -->
+<div class="header-bar">
+    <ng-template [ngIf]="user" [ngIfElse]="elseLogin">
+        <span class="welcome-message">{{ welcomeMessage }} (<a class="logout" (click)="userService.logout()">Logout</a>)</span>        
+        <span class="cart-status"><a routerLink="/cart">Your Cart({{cartService.cartCount}} Items)</a></span>
+    </ng-template>
+    <ng-template #elseLogin>
+        <a routerLink="/login">Login</a>
+    </ng-template>    
+</div>
 <h1>{{product.name}}</h1>
-<table>
+<img src="https://via.placeholder.com/180">
+<div class="description">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+</div>
+<table class="detail">
     <tr>
-        <td>Product Name:</td><td>{{product.name}}</td>
+        <td class="label">Product Name:</td><td>{{product.name}}</td>
     </tr>
     <tr>
-        <td>Price:</td><td>RM{{product.price}}</td>
-    </tr>    
+        <td class="label">Price:</td><td>RM{{product.price}}</td>
+    </tr>
 </table>
 <button (click)="onAddToCart()">Add to Cart</button>

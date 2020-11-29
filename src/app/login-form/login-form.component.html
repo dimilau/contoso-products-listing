@@ -1,18 +1,9 @@
-Login Form
-<!-- <form (ngSubmit)="onSubmit" #loginForm="ngForm">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" [(ngModel)]="mdl.username">        
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" [(ngModel)]="mdl.password">
-    </div>
-</form> -->
+<div class="login-form">
 <form (ngSubmit)="onSubmit()">
+    <label for="username">Username:</label>
     <input type="text" [(ngModel)]="credential.username" name="username">
+    <label for="password">Password:</label>
     <input type="password" [(ngModel)]="credential.password" name="password">
     <button type="submit">Submit</button>
 </form>
-{{testResult}}
-{{diagnostic}}
+</div>

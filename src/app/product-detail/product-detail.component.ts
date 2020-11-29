@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PRODUCTS } from '../mock-products';
 import { Product } from '../product';
 import { CartService } from '../cart.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -13,8 +14,10 @@ export class ProductDetailComponent implements OnInit {
   product: Product;
 
   constructor(
-    private route: ActivatedRoute,
-    private cartService: CartService
+    private activatedRoute: ActivatedRoute,
+    private cartService: CartService,
+    private userService: UserService,
+    private route: Router,
   ) { }
 
   ngOnInit(): void {
@@ -22,12 +25,23 @@ export class ProductDetailComponent implements OnInit {
   }
 
   getProduct(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = +this.activatedRoute.snapshot.paramMap.get('id');
     this.product = PRODUCTS.find(product => product.id === id);
   }
 
   onAddToCart() {
-    this.cartService.addToCart(this.product.id);
+    if(this.userService.user){
+      this.cartService.addToCart(this.product.id);
+    }else{
+      this.route.navigate(['login']);
+    }
   }
 
+  get user() {
+    return this.userService.user;
+  }
+
+  get welcomeMessage() {
+    return this.user ? `Welcome, ${this.user.username}!`:'';
+  }
 }

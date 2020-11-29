@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('assets/OpenSans-Regular.ttf');
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: #fff;
+}
+
+button {
+    border-radius: 1em;
+    border: 1px solid #636e72;
+    width: 12em; 
+    height: 3em;
+}

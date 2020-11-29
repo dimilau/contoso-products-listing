@@ -46,6 +46,13 @@ export class CartService {
     return cartLineItems;
   }
 
+  get cartCount() {
+    let cart= JSON.parse(localStorage.getItem('cart')||'[]');
+    return cart.reduce(function(acc, cartLineItem){
+      return acc + cartLineItem.quantity;
+    },0);
+  }
+
   get sum() {
     let sum = this.cart.reduce(function (total, cartLineItem) {
       let selectedRule = this.rules[cartLineItem.sku] ? this.rules[cartLineItem.sku] : this.rules['default'];

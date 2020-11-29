@@ -15,13 +15,13 @@ export class LoginFormComponent {
     private router: Router
   ) { }
   credential: Credential = new Credential('','');
-  testResult;
+
   onSubmit() {
-    this.testResult = this.userService.login(this.credential);
-    if (this.testResult) {
+    if (this.userService.login(this.credential)) {
       this.router.navigate(['products']);
+    } else {
+      // show error message
     }
   }
-  get diagnostic() { return JSON.stringify(this.credential);}
 
 }

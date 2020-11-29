@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Credential } from './credential';
+import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
@@ -21,15 +23,34 @@ export class UserService {
       password: '123456',
       type: 'associate'
     }
-  ]
+  ];
 
-  login(credential: Credential) {
-    let credentialFound: Credential = this.users.find(user => user.username === credential.username);
-    if (credentialFound && credentialFound.password == credential.password) {
+  constructor(
+    private router: Router
+  ) { }
+
+  login(credentialGiven: Credential) {
+    let credentialFound: Credential = this.users.find(user => user.username === credentialGiven.username);
+    if (credentialFound && credentialFound.password == credentialGiven.password) {
+      this.postLogin(credentialFound);
       return true;
     } else {
       return false;
     }
   }
-  constructor() { }
+
+  postLogin(credentialFound) {
+    let userDetail = {username: credentialFound.username, type: credentialFound.type};
+    localStorage.setItem('user', JSON.stringify(userDetail))
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('cart');
+    this.router.navigate(['login']);
+  }
+
+  get user() {
+    return JSON.parse(localStorage.getItem('user'));
+  }
 }

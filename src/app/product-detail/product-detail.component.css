@@ -1,0 +1,31 @@
+.label {
+    font-style: italic;
+}
+.description {
+    width: 20em;
+    font-size: 16pt;
+    margin-bottom: 2em;
+}
+.detail {
+    margin-bottom: 2em;
+}
+button {
+    background: #ffeaa7;
+}
+.header-bar {
+    border-bottom: 1px solid #dfe6e9;
+    text-align: right;
+}
+.welcome-message {
+    border-right: 1px solid #dfe6e9;
+}
+.cart-status {
+    border-left: 1px solid #dfe6e9;
+}
+.welcome-message, .cart-status {
+    margin: 0 1em;
+    padding: 0 1em;
+}
+.logout {
+    cursor: pointer;
+}
