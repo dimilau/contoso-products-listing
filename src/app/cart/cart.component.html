@@ -1,0 +1,6 @@
+<ul>
+    <li *ngFor="let cartItem of cart">
+{{cartItem.name}} | {{cartItem.price}} | {{cartItem.quantity}}
+    </li>
+</ul>
+Total: {{ sum }}
