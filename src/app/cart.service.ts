@@ -1,29 +1,17 @@
 import { Injectable } from '@angular/core';
 import { PRODUCTS } from './mock-products';
+import { PriceService } from './price.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  rules;
-
-  constructor() { 
-
-    this.rules = {
-        'kon4': function rules (count, price) {
-            return count >= 3 ? count * 2588.99 : count * price;
-        },
-        'iro8': function rules (count, price) {
-            return count * 2500;
-        },
-        'iro17': function rules (count, price) {
-            return Math.floor(count/3) * (price * 2) + (count % 3 * price)
-        },
-        'default': function rules (count, price) {
-            return count * price * 0.8;
-        }   
-    };
+  constructor(
+    private userService:UserService,
+    private priceService:PriceService
+  ) { 
   }
 
   addToCart(id: number) {
@@ -38,10 +26,17 @@ export class CartService {
   }
 
   get cart() {
+    let userType = this.userService.user.type;
+    let rules = this.priceService.rules[userType];
+    let discountTypes = this.priceService.discountTypes[userType];
+
     let cart= JSON.parse(localStorage.getItem('cart')||'[]');
     let cartLineItems: ICartLineItem[] = cart.map(function(cartLineItem: ICartLineItem){
       let productDetail = PRODUCTS.find(product => product.id === cartLineItem.id);
-      return {...cartLineItem, ...productDetail};
+      let selectedRule = rules[productDetail.sku] ? rules[productDetail.sku] : rules['default'];
+      let discountType = discountTypes[productDetail.sku] ? discountTypes[productDetail.sku] : discountTypes['default'];
+      let subTotal = selectedRule(cartLineItem.quantity, productDetail.price);
+      return {...cartLineItem, ...productDetail, subTotal, discountType};
     });
     return cartLineItems;
   }
@@ -54,8 +49,11 @@ export class CartService {
   }
 
   get sum() {
+    let userType = this.userService.user.type;
+    let rules = this.priceService.rules[userType];
+
     let sum = this.cart.reduce(function (total, cartLineItem) {
-      let selectedRule = this.rules[cartLineItem.sku] ? this.rules[cartLineItem.sku] : this.rules['default'];
+      let selectedRule = rules[cartLineItem.sku] ? rules[cartLineItem.sku] : rules['default'];
       let sumItem = selectedRule(cartLineItem.quantity, cartLineItem.price);
       return total + Math.round(sumItem * 100) / 100;
     }.bind(this), 0);
@@ -69,4 +67,6 @@ interface ICartLineItem {
   name?: string;
   price?: number;
   sku?: string;
+  subTotal?: number;
+  discountType?: string;
 }
